@@ -36,11 +36,13 @@ export function WeeklyCalender() {
   const formattedEndDate = format(endDate, "yyyy-MM-dd");
 
   return (
-    <main>
-      <button onClick={handleSubWeekToDate}>{"<"}</button>
-      {`${formattedStartDate} ~ ${formattedEndDate}`}
-      <button onClick={handleAddWeekToDate}>{">"}</button>
-      <div className="grid grid-cols-7">
+    <main className="flex flex-col gap-2 justify-center items-center">
+      <div className="w-full flex content-between justify-between p-4">
+        <button onClick={handleSubWeekToDate}>{"<"}</button>
+        <div>{`${formattedStartDate} ~ ${formattedEndDate}`}</div>
+        <button onClick={handleAddWeekToDate}>{">"}</button>
+      </div>
+      <div className="w-full grid grid-cols-7 gap-12 p-4 place-items-center">
         {week.map((day, index) => (
           <DaySchedule
             key={`${day}`}
