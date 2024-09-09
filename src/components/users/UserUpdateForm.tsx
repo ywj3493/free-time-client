@@ -1,9 +1,15 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { TextField } from "../common/TextField";
+import { Button } from "../common/Button";
 
 export function UserUpdateForm() {
-  const { register, handleSubmit } = useForm<UserUpdateFormData>({
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<UserUpdateFormData>({
     defaultValues: {
       name: "",
       phone: "",
@@ -17,25 +23,26 @@ export function UserUpdateForm() {
 
   return (
     <form
-      className="flex flex-col justify-center items-center w-96"
+      className="flex flex-col justify-center items-center w-64 gap-2"
       onSubmit={handleSubmit(handleSendForm)}
     >
-      <div className="flex w-full justify-between">
-        이름
-        <input {...register("name", { required: true })} />
-      </div>
+      <TextField
+        type="text"
+        {...register("name", { required: true })}
+        placeholder="이름"
+        className="w-64 text-sm p-4"
+      />
+      <TextField
+        type="text"
+        {...register("phone", {
+          required: true,
+          pattern: /^01[016789]\d{3,4}\d{4}$/,
+        })}
+        placeholder="연락처"
+        className="w-64 text-sm p-4"
+      />
 
-      <div className="flex w-full justify-between">
-        연락처
-        <input
-          {...register("phone", {
-            required: true,
-            pattern: /^01[016789]\d{3,4}\d{4}$/,
-          })}
-        />
-      </div>
-
-      <div className="flex w-full justify-between">
+      <div className="flex w-64 items-center gap-4 rounded-lg border border-gray-300 p-2 text-sm justify-between">
         알림채널
         <div className="grid grid-flow-col gap-2">
           <input
@@ -52,7 +59,9 @@ export function UserUpdateForm() {
           SMS
         </div>
       </div>
-      <button type="submit">수정</button>
+      <Button type="submit" className="w-64" disabled={!isValid}>
+        수정
+      </Button>
     </form>
   );
 }
