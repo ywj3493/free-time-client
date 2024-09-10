@@ -1,5 +1,7 @@
 "use client";
 
+import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
+import { useSchedule } from "@/hooks/useSchedule";
 import { differenceInMinutes, startOfDay, format } from "date-fns";
 
 interface DayScheduleProps {
@@ -15,7 +17,18 @@ export function DaySchedule({
   freeTime,
   meetings,
 }: DayScheduleProps) {
+  const { handleToggleSchedule } = useSchedule();
+
   const formattedDate = format(date, "yyyy-MM-dd");
+
+  const freeTimeAdapters = freeTime.map(({ start, end }) =>
+    ScheduleAdapter.create({ date, start, end, isFreeTime: true })
+  );
+
+  const meetingsAdapters = meetings.map(({ start, end }) =>
+    ScheduleAdapter.create({ date, start, end, isFreeTime: false })
+  );
+
   return (
     <div className="relative w-full max-w-36 flex flex-col bg-gray-400 h-180 text-center">
       <div className="absolute w-4 h-180 -left-4 -top-2">
@@ -30,19 +43,17 @@ export function DaySchedule({
         ))}
       </div>
       {`${formattedDate} ${day}`}
-      {freeTime.map((time) => (
+      {freeTimeAdapters.map((adapter) => (
         <ScheduleGage
-          key={`freeTime_${time.start}_${time.end}`}
-          {...time}
-          isFreeTime
-          onClick={(schedule) => console.log(schedule)}
+          key={`freeTime_${adapter.start}_${adapter.end}`}
+          scheduleAdapter={adapter}
+          onClick={({ id }) => handleToggleSchedule(id)}
         />
       ))}
-      {meetings.map((meeting) => (
+      {meetingsAdapters.map((adapter) => (
         <ScheduleGage
-          key={`meeting_${meeting.start}_${meeting.end}`}
-          {...meeting}
-          isFreeTime={false}
+          key={`meeting_${adapter.start}_${adapter.end}`}
+          scheduleAdapter={adapter}
           onClick={(schedule) => console.log(schedule)}
         />
       ))}
@@ -51,34 +62,31 @@ export function DaySchedule({
 }
 
 interface ScheduleGageProps {
-  start: string;
-  end: string;
-  isFreeTime: boolean;
-  onClick?: (schedule: Schedule) => void;
+  scheduleAdapter: ScheduleAdapter;
+  isSelected?: boolean;
+  onClick?: (schedule: ScheduleAdapter) => void;
 }
 
-function ScheduleGage({ start, end, isFreeTime, onClick }: ScheduleGageProps) {
-  const startTime = new Date(start);
-  const endTime = new Date(end);
+function ScheduleGage({ scheduleAdapter, onClick }: ScheduleGageProps) {
+  const { selectedSchedule } = useSchedule();
 
-  const dayStart = startOfDay(startTime);
-  const minutesFromStart = differenceInMinutes(startTime, dayStart);
-
-  const difference = differenceInMinutes(endTime, startTime);
+  const { id, topRatio, heightRatio, isFreeTime } = scheduleAdapter;
 
   const containerHeight = 720;
 
-  const top = (minutesFromStart / (24 * 60)) * containerHeight;
-  const height = (difference / (24 * 60)) * containerHeight;
+  const top = topRatio * containerHeight;
+  const height = heightRatio * containerHeight;
 
   const handleGageClick = () => {
-    onClick?.({ start, end });
+    onClick?.(scheduleAdapter);
   };
 
   return (
     <div
       className={`absolute w-full flex items-center justify-center ${
-        isFreeTime ? "bg-blue-400" : "bg-red-400"
+        isFreeTime ? "bg-blue-400 cursor-pointer" : "bg-red-400"
+      } ${
+        selectedSchedule.has(id) ? "border-2 border-blue-500" : ""
       } text-white`}
       style={{ height: height, top: top }}
       onClick={handleGageClick}

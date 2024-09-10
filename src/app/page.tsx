@@ -1,9 +1,5 @@
 import { WeeklyCalender } from "@/components/free-time/WeeklyCalender";
 
 export default function Home() {
-  return (
-    <div>
-      <WeeklyCalender />
-    </div>
-  );
+  return <WeeklyCalender standardDate={new Date()} />;
 }
