@@ -1,4 +1,4 @@
-type FreeTimeUpdateForm = {
+type FreeTimeUpdateFormData = {
   monday: FreeTimeRequest;
   tuesday: FreeTimeRequest;
   wednesday: FreeTimeRequest;

@@ -24,11 +24,11 @@ export class ScheduleAdapter implements IScheduleAdapter {
     return new ScheduleAdapter(data);
   }
 
-  get startTime() {
+  get startDate() {
     return new Date(this.start);
   }
 
-  get endTime() {
+  get endDate() {
     return new Date(this.end);
   }
 
@@ -36,16 +36,25 @@ export class ScheduleAdapter implements IScheduleAdapter {
     return `${this.date}_${this.start}_${this.end}`;
   }
 
+  // DaySchedule.tsx 의 ScheduleGage 컴포넌트의 위치를 잡는데 사용하는 비율 값
   get topRatio() {
-    const dayStart = startOfDay(this.startTime);
-    const minutesFromStart = differenceInMinutes(this.startTime, dayStart);
+    const dayStart = startOfDay(this.startDate);
+    const minutesFromStart = differenceInMinutes(this.startDate, dayStart);
 
     return minutesFromStart / (24 * 60);
   }
 
+  // DaySchedule.tsx 의 ScheduleGage 컴포넌트의 높이를 잡는데 사용하는 비율 값
   get heightRatio() {
-    const difference = differenceInMinutes(this.endTime, this.startTime);
+    const difference = differenceInMinutes(this.endDate, this.startDate);
 
     return difference / (24 * 60);
+  }
+
+  get schedule() {
+    return {
+      start: this.startDate.toISOString(),
+      end: this.endDate.toISOString(),
+    };
   }
 }

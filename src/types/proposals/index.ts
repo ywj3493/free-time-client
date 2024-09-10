@@ -1,3 +1,10 @@
+type MeetingProposalFormData = {
+  targetId: number;
+  schedules: Schedule[];
+  expiredAt: string;
+  description: string;
+};
+
 type ProposalAcceptRequest = {
   schedule: Schedule;
   description: string;

@@ -7,6 +7,9 @@ import { startOfWeek, endOfWeek, addDays, addWeeks, format } from "date-fns";
 import { Button } from "../common/Button";
 import Modal from "../common/Modal";
 import { ScheduleContextProvider } from "@/hooks/scheduleContext";
+import { MeetingProposalForm } from "../proposals/MeetingProposalForm";
+import { useSchedule } from "@/hooks/useSchedule";
+import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
 
 const week = ["월", "화", "수", "목", "금", "토", "일"];
 
@@ -26,6 +29,7 @@ interface WeeklyCalenderProps {
 }
 
 export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
+  const { selectedSchedule } = useSchedule();
   const [date, setDate] = useState(standardDate);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,6 +46,17 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
 
   const formattedStartDate = format(startDate, "yyyy-MM-dd");
   const formattedEndDate = format(endDate, "yyyy-MM-dd");
+
+  const selectedFreeTimes = freeTime
+    .map((schedule) =>
+      ScheduleAdapter.create({
+        date,
+        start: schedule.start,
+        end: schedule.end,
+        isFreeTime: true,
+      })
+    )
+    .filter((schedule) => !selectedSchedule.has(schedule.id));
 
   return (
     <ScheduleContextProvider>
@@ -64,7 +79,7 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
         </div>
         <Button onClick={() => setIsModalOpen(true)}>모달오픈</Button>
         <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-          <div>테스트</div>
+          <MeetingProposalForm freeTimes={selectedFreeTimes} />
         </Modal>
       </main>
     </ScheduleContextProvider>

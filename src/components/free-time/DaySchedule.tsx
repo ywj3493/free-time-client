@@ -2,7 +2,7 @@
 
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
 import { useSchedule } from "@/hooks/useSchedule";
-import { differenceInMinutes, startOfDay, format } from "date-fns";
+import { format } from "date-fns";
 
 interface DayScheduleProps {
   date: Date;

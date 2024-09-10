@@ -10,11 +10,11 @@ export function FreeTimeUpdateForm() {
     register,
     handleSubmit,
     formState: { isValid },
-  } = useForm<FreeTimeUpdateForm>({
+  } = useForm<FreeTimeUpdateFormData>({
     defaultValues: {},
   });
 
-  const handleSendForm = (data: FreeTimeUpdateForm) => {
+  const handleSendForm = (data: FreeTimeUpdateFormData) => {
     console.log(data);
   };
 
