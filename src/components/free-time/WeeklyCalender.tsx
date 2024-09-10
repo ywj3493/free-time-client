@@ -6,7 +6,7 @@ import { DaySchedule } from "./DaySchedule";
 import { startOfWeek, endOfWeek, addDays, addWeeks, format } from "date-fns";
 import { Button } from "../common/Button";
 import Modal from "../common/Modal";
-import { ScheduleContextProvider } from "@/hooks/scheduleContext";
+import { ScheduleContextProvider } from "@/hooks/ScheduleContext";
 import { MeetingProposalForm } from "../proposals/MeetingProposalForm";
 import { useSchedule } from "@/hooks/useSchedule";
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";

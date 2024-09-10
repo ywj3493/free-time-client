@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ScheduleContext } from "./scheduleContext";
+import { ScheduleContext } from "./ScheduleContext";
 
 export function useSchedule() {
   const context = useContext(ScheduleContext);

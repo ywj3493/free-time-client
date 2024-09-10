@@ -32,25 +32,25 @@ export function FreeTimeUpdateForm() {
           <TextField
             {...register(`${eng}.startHour`)}
             placeholder="18"
-            className="text-sm p-4 w-10"
+            className="text-sm w-10"
           />
           <span className="text-center">시</span>
           <TextField
             {...register(`${eng}.startMinute`)}
             placeholder="00"
-            className="text-sm p-4 w-10"
+            className="text-sm w-10"
           />
           <span className="text-center">분 부터</span>
           <TextField
             {...register(`${eng}.endHour`)}
             placeholder="21"
-            className="text-sm p-4 w-10"
+            className="text-sm w-10"
           />
           <span className="text-center">시</span>
           <TextField
             {...register(`${eng}.endMinute`)}
             placeholder="00"
-            className="text-sm p-4 w-10"
+            className="text-sm w-10"
           />
           <span className="text-center">분 까지</span>
         </div>
