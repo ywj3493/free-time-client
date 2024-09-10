@@ -1,3 +1,13 @@
+type FreeTimeUpdateForm = {
+  monday: FreeTimeRequest;
+  tuesday: FreeTimeRequest;
+  wednesday: FreeTimeRequest;
+  thursday: FreeTimeRequest;
+  friday: FreeTimeRequest;
+  saturday: FreeTimeRequest;
+  sunday: FreeTimeRequest;
+};
+
 type FreeTimeRequest = {
   startHour: number;
   startMinute: number;

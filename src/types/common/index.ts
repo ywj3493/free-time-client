@@ -10,3 +10,11 @@ type Schedule = {
 };
 
 type Day = "월" | "화" | "수" | "목" | "금" | "토" | "일";
+type DayEng =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";

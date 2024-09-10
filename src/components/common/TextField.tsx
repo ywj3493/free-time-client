@@ -27,7 +27,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <input
           ref={ref}
           {...props}
-          className="m-2 w-full border-0 outline-none"
+          className="m-2 w-full border-0 outline-none appearance-none"
           type={internalType}
         />
         {isPasswordInput &&

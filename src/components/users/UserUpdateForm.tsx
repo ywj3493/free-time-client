@@ -30,7 +30,7 @@ export function UserUpdateForm() {
         type="text"
         {...register("name", { required: true })}
         placeholder="이름"
-        className="w-64 text-sm p-4"
+        className="w-full text-sm p-4"
       />
       <TextField
         type="text"
@@ -39,10 +39,10 @@ export function UserUpdateForm() {
           pattern: /^01[016789]\d{3,4}\d{4}$/,
         })}
         placeholder="연락처"
-        className="w-64 text-sm p-4"
+        className="w-full text-sm p-4"
       />
 
-      <div className="flex w-64 items-center gap-4 rounded-lg border border-gray-300 p-2 text-sm justify-between">
+      <div className="flex w-full items-center gap-4 rounded-lg border border-gray-300 p-2 text-sm justify-between">
         알림채널
         <div className="grid grid-flow-col gap-2">
           <input
