@@ -145,7 +145,7 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
   const filteredSelectedSchedule = filterSelectedSchedule(freeTimeAdapters);
 
   return (
-    <main className="flex flex-col gap-2 justify-center items-center">
+    <main className="flex flex-col gap-2 justify-center items-center px-10 pb-20">
       <div className="w-full flex content-between justify-between p-4">
         <button onClick={handleSubWeekToDate}>{"<"}</button>
         <div>{`${formattedStartDate} ~ ${formattedEndDate}`}</div>

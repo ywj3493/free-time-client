@@ -1,19 +1,12 @@
 "use client";
 
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
-import { useState } from "react";
 import { Chip } from "../common/Chip";
-import {
-  Control,
-  useController,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { addDays } from "date-fns";
 import { TextField } from "../common/TextField";
 import { useSchedule } from "@/hooks/useSchedule";
 import { Button } from "../common/Button";
-import { scheduler } from "timers/promises";
 
 interface MeetingProposalFormProps {
   freeTimes: ScheduleAdapter[];

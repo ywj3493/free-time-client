@@ -12,7 +12,7 @@ type ProposalAcceptRequest = {
 
 type ProposalCreateRequest = {
   targetId: number;
-  schdules: Schedule[];
+  schedules: Schedule[];
   expiredAt: string;
   description: string;
 };
@@ -21,7 +21,7 @@ type ProposalResponse = {
   proposalId: number;
   requesterId: number;
   requesterName: string;
-  schdules: Schedule[];
+  schedules: Schedule[];
   expiredAt: string;
   status: ProposalStatus;
 };

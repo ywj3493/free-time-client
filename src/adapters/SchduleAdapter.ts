@@ -1,3 +1,4 @@
+import { simpleHash } from "@/utils";
 import { differenceInMinutes, format, startOfDay } from "date-fns";
 
 interface IScheduleAdapter {
@@ -17,24 +18,44 @@ export class ScheduleAdapter implements IScheduleAdapter {
     this.isFreeTime = isFreeTime;
   }
 
-  public static create(data: IScheduleAdapter) {
+  public static create(data: ScheduleAdapter | IScheduleAdapter) {
     return new ScheduleAdapter(data);
   }
 
-  get startDate() {
+  private get startDate() {
     return new Date(this.start);
   }
 
-  get endDate() {
+  private get endDate() {
     return new Date(this.end);
+  }
+
+  get id() {
+    return simpleHash(`${this.date}_${this.start}_${this.end}`);
   }
 
   get date() {
     return format(this.startDate, "yyyy-MM-dd");
   }
 
-  get id() {
-    return `${this.date}_${this.start}_${this.end}`;
+  get startHour() {
+    return this.startDate.getHours();
+  }
+
+  get endHour() {
+    return this.endDate.getHours();
+  }
+
+  get startMinute() {
+    return this.startDate.getMinutes();
+  }
+
+  get endMinute() {
+    return this.endDate.getMinutes();
+  }
+
+  get scheduleText() {
+    return `${this.date} ${this.startHour}시 ${this.startMinute}분 부터 ${this.endHour}시 ${this.endMinute}분 까지`;
   }
 
   // DaySchedule.tsx 의 ScheduleGage 컴포넌트의 위치를 잡는데 사용하는 비율 값
