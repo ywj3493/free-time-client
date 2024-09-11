@@ -5,28 +5,24 @@ import { useSchedule } from "@/hooks/useSchedule";
 import { format } from "date-fns";
 
 interface DayScheduleProps {
-  date: Date;
   day: string;
-  freeTime: Schedule[];
-  meetings: Schedule[];
+  freeTimes: ScheduleAdapter[];
+  meetings: ScheduleAdapter[];
 }
 
-export function DaySchedule({
-  date,
-  day,
-  freeTime,
-  meetings,
-}: DayScheduleProps) {
+export function DaySchedule({ day, freeTimes, meetings }: DayScheduleProps) {
   const { handleToggleSchedule } = useSchedule();
+
+  const date = freeTimes[0].date;
 
   const formattedDate = format(date, "yyyy-MM-dd");
 
-  const freeTimeAdapters = freeTime.map(({ start, end }) =>
-    ScheduleAdapter.create({ date, start, end, isFreeTime: true })
+  const freeTimeAdapters = freeTimes.map(({ start, end }) =>
+    ScheduleAdapter.create({ start, end, isFreeTime: true })
   );
 
   const meetingsAdapters = meetings.map(({ start, end }) =>
-    ScheduleAdapter.create({ date, start, end, isFreeTime: false })
+    ScheduleAdapter.create({ start, end, isFreeTime: false })
   );
 
   return (
@@ -68,7 +64,7 @@ interface ScheduleGageProps {
 }
 
 function ScheduleGage({ scheduleAdapter, onClick }: ScheduleGageProps) {
-  const { selectedSchedule } = useSchedule();
+  const { getIsSelected } = useSchedule();
 
   const { id, topRatio, heightRatio, isFreeTime } = scheduleAdapter;
 
@@ -85,9 +81,7 @@ function ScheduleGage({ scheduleAdapter, onClick }: ScheduleGageProps) {
     <div
       className={`absolute w-full flex items-center justify-center ${
         isFreeTime ? "bg-blue-400 cursor-pointer" : "bg-red-400"
-      } ${
-        selectedSchedule.has(id) ? "border-2 border-blue-500" : ""
-      } text-white`}
+      } ${getIsSelected(id) ? "border-2 border-blue-500" : ""} text-white`}
       style={{ height: height, top: top }}
       onClick={handleGageClick}
     >

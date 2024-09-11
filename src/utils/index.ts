@@ -1,30 +1,57 @@
-export const days: { eng: DayEng; kor: Day }[] = [
+export function dayToKor(dayEng: DayEng) {
+  switch (dayEng) {
+    case "MONDAY":
+      return "월";
+    case "TUESDAY":
+      return "화";
+    case "WEDNESDAY":
+      return "수";
+    case "THURSDAY":
+      return "목";
+    case "FRIDAY":
+      return "금";
+    case "SATURDAY":
+      return "토";
+    case "SUNDAY":
+      return "일";
+    default:
+      return "";
+  }
+}
+
+export const days: { kor: Day; eng: DayEng }[] = [
   {
-    eng: "monday",
     kor: "월",
+    eng: "MONDAY",
   },
+
   {
-    eng: "tuesday",
     kor: "화",
+    eng: "TUESDAY",
   },
+
   {
-    eng: "wednesday",
     kor: "수",
+    eng: "WEDNESDAY",
   },
+
   {
-    eng: "thursday",
     kor: "목",
+    eng: "THURSDAY",
   },
+
   {
-    eng: "friday",
     kor: "금",
+    eng: "FRIDAY",
   },
+
   {
-    eng: "saturday",
     kor: "토",
+    eng: "SATURDAY",
   },
+
   {
-    eng: "sunday",
     kor: "일",
+    eng: "SUNDAY",
   },
 ];

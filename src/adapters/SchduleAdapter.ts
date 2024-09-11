@@ -1,20 +1,17 @@
-import { differenceInMinutes, startOfDay } from "date-fns";
+import { differenceInMinutes, format, startOfDay } from "date-fns";
 
 interface IScheduleAdapter {
-  date: Date;
   start: string;
   end: string;
   isFreeTime: boolean;
 }
 
 export class ScheduleAdapter implements IScheduleAdapter {
-  public date;
   public start;
   public end;
   public isFreeTime;
 
-  protected constructor({ date, start, end, isFreeTime }: IScheduleAdapter) {
-    this.date = date;
+  protected constructor({ start, end, isFreeTime }: IScheduleAdapter) {
     this.start = start;
     this.end = end;
     this.isFreeTime = isFreeTime;
@@ -30,6 +27,10 @@ export class ScheduleAdapter implements IScheduleAdapter {
 
   get endDate() {
     return new Date(this.end);
+  }
+
+  get date() {
+    return format(this.startDate, "yyyy-MM-dd");
   }
 
   get id() {

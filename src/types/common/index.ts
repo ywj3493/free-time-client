@@ -11,6 +11,14 @@ type Schedule = {
 
 type Day = "월" | "화" | "수" | "목" | "금" | "토" | "일";
 type DayEng =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+type DayEngLower =
   | "monday"
   | "tuesday"
   | "wednesday"

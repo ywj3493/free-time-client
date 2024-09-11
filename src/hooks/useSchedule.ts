@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { ScheduleContext } from "./ScheduleContext";
+import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
 
 export function useSchedule() {
   const context = useContext(ScheduleContext);
@@ -13,15 +14,15 @@ export function useSchedule() {
   const { selectedSchedule, setSelectedSchedule } = context;
 
   const handleAddSchedule = (id: string) => {
-    const tempSet = selectedSchedule;
+    const tempSet = new Set(selectedSchedule);
     tempSet.add(id);
-    setSelectedSchedule(new Set(tempSet));
+    setSelectedSchedule(tempSet);
   };
 
   const handleDeleteSchedule = (id: string) => {
-    const tempSet = selectedSchedule;
+    const tempSet = new Set(selectedSchedule);
     tempSet.delete(id);
-    setSelectedSchedule(new Set(tempSet));
+    setSelectedSchedule(tempSet);
   };
 
   const handleToggleSchedule = (id: string) => {
@@ -36,11 +37,17 @@ export function useSchedule() {
     return selectedSchedule.has(id);
   };
 
+  const filterSelectedSchedule = (schedules: ScheduleAdapter[]) => {
+    return [
+      ...schedules.filter((schedule) => selectedSchedule.has(schedule.id)),
+    ];
+  };
+
   return {
-    selectedSchedule,
     handleAddSchedule,
     handleDeleteSchedule,
     handleToggleSchedule,
     getIsSelected,
+    filterSelectedSchedule,
   };
 }
