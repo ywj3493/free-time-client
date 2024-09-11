@@ -172,7 +172,7 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
           );
         })}
       </div>
-      <Button onClick={() => setIsModalOpen(true)}>모달오픈</Button>
+      <Button onClick={() => setIsModalOpen(true)}>프리타임 제안</Button>
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <MeetingProposalForm freeTimes={filteredSelectedSchedule} />
       </Modal>
