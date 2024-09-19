@@ -1,6 +1,31 @@
 import { simpleHash } from "@/utils";
 import { differenceInMinutes, format, startOfDay } from "date-fns";
 
+function isIScheduleAdapter(obj: any): obj is IScheduleAdapter {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    "start" in obj &&
+    "end" in obj &&
+    "isFreeTime" in obj &&
+    typeof obj.start === "string" &&
+    typeof obj.end === "string" &&
+    typeof obj.isFreeTime === "boolean"
+  );
+}
+
+// 타입 가드 함수
+function isScheduleResponse(obj: any): obj is ScheduleResponse {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    "start" in obj &&
+    "end" in obj &&
+    typeof obj.start === "string" &&
+    typeof obj.end === "string"
+  );
+}
+
 interface IScheduleAdapter {
   start: string;
   end: string;
@@ -18,8 +43,21 @@ export class ScheduleAdapter implements IScheduleAdapter {
     this.isFreeTime = isFreeTime;
   }
 
-  public static create(data: ScheduleAdapter | IScheduleAdapter) {
-    return new ScheduleAdapter(data);
+  public static create(
+    data: ScheduleAdapter | IScheduleAdapter | ScheduleResponse,
+    isFreeTime?: boolean
+  ) {
+    if (data instanceof ScheduleAdapter) {
+      return data;
+    } else if (isIScheduleAdapter(data)) {
+      return new ScheduleAdapter({ ...data });
+    } else if (isScheduleResponse(data)) {
+      return new ScheduleAdapter({
+        ...data,
+        isFreeTime: isFreeTime ? true : false,
+      });
+    }
+    throw Error("ScheduleAdapter create error");
   }
 
   private get startDate() {

@@ -62,6 +62,6 @@ type ScheduleResponse = {
 type DailyScheduleResponse = {
   date: string;
   day: string;
-  freeTime: ScheduleResponse;
-  meetings: ScheduleResponse;
+  freeTime: ScheduleResponse[];
+  confirmedMeetings: ScheduleResponse[];
 };

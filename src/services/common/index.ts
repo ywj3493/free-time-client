@@ -5,21 +5,23 @@ export default async function fetchWithAuth(
   url: string,
   options?: RequestInit
 ) {
-  const session = await getSession();
-  const accessToken = session?.user.accessToken;
-
-  if (!accessToken) throw Error("accessToken 없음");
-
-  const headers = {
-    ...options?.headers,
-    Authorization: `Bearer ${accessToken}`,
-  };
-
   try {
+    console.log("fetchWithAuth");
+    const session = await getSession();
+
+    if (!session) throw Error("session 없음");
+
+    const headers = {
+      ...options?.headers,
+      Authorization: `Bearer ${session.accessToken}`,
+    };
+
     const response = await fetch(`${baseUrl}${url}`, {
       ...options,
       headers,
     });
+
+    console.log(response);
 
     return response;
   } catch (error) {
