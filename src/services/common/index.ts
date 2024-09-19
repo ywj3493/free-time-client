@@ -6,7 +6,6 @@ export default async function fetchWithAuth(
   options?: RequestInit
 ) {
   try {
-    console.log("fetchWithAuth");
     const session = await getSession();
 
     if (!session) throw Error("session 없음");
@@ -20,8 +19,6 @@ export default async function fetchWithAuth(
       ...options,
       headers,
     });
-
-    console.log(response);
 
     return response;
   } catch (error) {

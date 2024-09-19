@@ -9,11 +9,7 @@ export async function getMyFreeTime({
 }) {
   const params = new URLSearchParams({ start, end });
 
-  try {
-    const response = await fetchWithAuth(`/free-time?${params}`);
+  const response = await fetchWithAuth(`/free-time?${params}`);
 
-    if (response?.ok) return response;
-  } catch (error) {
-    console.log(error);
-  }
+  return response?.json();
 }

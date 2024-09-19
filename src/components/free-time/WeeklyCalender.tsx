@@ -10,8 +10,8 @@ import { MeetingProposalForm } from "../proposals/MeetingProposalForm";
 import { useSchedule } from "@/hooks/useSchedule";
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
 import { dayToKor } from "@/utils";
-import useServerState from "@/hooks/useServerState";
 import { getMyFreeTime } from "@/services/free-time";
+import useSWR from "swr";
 
 interface WeeklyCalenderProps {
   standardDate: Date;
@@ -37,12 +37,9 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
     setDate(() => addWeeks(date, -1));
   };
 
-  const {
-    data: myScheduleData,
-    isLoading,
-    isError,
-  } = useServerState<FreeTimeMyResponse>(() =>
-    getMyFreeTime({ start: formattedStartDate, end: formattedEndDate })
+  const { data: myScheduleData, isLoading } = useSWR<FreeTimeMyResponse>(
+    `/free-time?start=${formattedStartDate}end=${formattedEndDate}`,
+    () => getMyFreeTime({ start: formattedStartDate, end: formattedEndDate })
   );
 
   if (isLoading || !myScheduleData) {
