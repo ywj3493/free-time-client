@@ -22,14 +22,15 @@ export function MeetingProposalForm({
 }: MeetingProposalFormProps) {
   const { userId } = useParams();
   const { handleDeleteSchedule } = useSchedule();
-  const { control, register, handleSubmit } = useForm<MeetingProposalFormData>({
-    defaultValues: {
-      targetId: +userId[0],
-      schedules: freeTimes.map((freeTime) => freeTime.schedule),
-      expiredAt: freeTimes.at(-1)?.schedule.end,
-      description: "",
-    },
-  });
+  const { control, register, handleSubmit, setValue, getValues } =
+    useForm<MeetingProposalFormData>({
+      defaultValues: {
+        targetId: +userId[0],
+        schedules: freeTimes.map((freeTime) => freeTime.schedule),
+        expiredAt: freeTimes.at(-1)?.schedule.end,
+        description: "",
+      },
+    });
 
   const { fields, remove } = useFieldArray({
     control,
@@ -41,9 +42,19 @@ export function MeetingProposalForm({
     onEmpty();
   };
 
-  // 스케줄 전부 지우면 자동으로 닫히도록 하는 로직을 위함
+  // 스케줄 전부 지우면 자동으로 닫히도록 하는 로직, expiredAt 값 재지정 로직
   useEffect(() => {
     if (fields.length === 0) onEmpty();
+    else {
+      const lastDate = fields
+        .map((field) => field.end)
+        .reduce(
+          (lastDate, currentDate) =>
+            lastDate > currentDate ? lastDate : currentDate,
+          getValues().expiredAt
+        );
+      setValue("expiredAt", lastDate);
+    }
   }, [fields]);
 
   return (
