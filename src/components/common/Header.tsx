@@ -5,6 +5,7 @@ import { useState } from "react";
 import Modal from "./Modal";
 import { MeetingResponseForm } from "../proposals/MeetingResponseForm";
 import { ProposalAdapter } from "@/adapters/ProposalAdapter";
+import { signOut } from "next-auth/react";
 
 const exampleProposalResponse: ProposalResponse = {
   proposalId: 1,
@@ -28,7 +29,6 @@ export function Header() {
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
 
   const handleAlarmModalOpen = () => {
-    console.log("tes");
     setIsAlarmModalOpen(true);
   };
 
@@ -36,18 +36,25 @@ export function Header() {
     setIsAlarmModalOpen(false);
   };
 
+  const handleSignOut = () => {
+    signOut();
+  };
+
   return (
     <div className="flex justify-between p-4">
       <Link href={"/users"}>마이 페이지</Link>
 
-      <button onClick={handleAlarmModalOpen}>알람</button>
-      <Modal open={isAlarmModalOpen} onClose={handleAlarmModalClose}>
-        <MeetingResponseForm
-          proposal={ProposalAdapter.create(exampleProposalResponse)}
-          onClickConfirm={handleAlarmModalClose}
-          onClickReject={handleAlarmModalClose}
-        />
-      </Modal>
+      <div className="flex gap-2">
+        <button onClick={handleAlarmModalOpen}>알람</button>
+        <Modal open={isAlarmModalOpen} onClose={handleAlarmModalClose}>
+          <MeetingResponseForm
+            proposal={ProposalAdapter.create(exampleProposalResponse)}
+            onClickConfirm={handleAlarmModalClose}
+            onClickReject={handleAlarmModalClose}
+          />
+        </Modal>
+        <button onClick={handleSignOut}>로그아웃</button>
+      </div>
     </div>
   );
 }

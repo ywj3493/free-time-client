@@ -1,3 +1,8 @@
+type LoginFormData = {
+  email: string;
+  password: string;
+};
+
 type UserUpdateFormData = {
   name: string;
   phone: string;

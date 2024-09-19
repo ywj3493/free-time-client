@@ -1,7 +1,16 @@
+import { auth } from "@/auth";
+import ProtectedRoute from "@/components/common/ProtectedRoute";
 import { FreeTimeUpdateForm } from "@/components/users/FreeTimeUpdateForm";
 import { UserUpdateForm } from "@/components/users/UserUpdateForm";
+import { redirect } from "next/navigation";
 
-export default function UsersPage() {
+export default async function UsersPage() {
+  const session = await auth();
+
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     <div className="flex flex-col gap-10">
       <section className="flex flex-col items-center justify-center gap-2">

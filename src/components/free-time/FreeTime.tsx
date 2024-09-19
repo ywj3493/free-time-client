@@ -1,9 +1,13 @@
 "use client";
 
-import { WeeklyCalender } from "@/components/free-time/WeeklyCalender";
 import { ScheduleContextProvider } from "@/hooks/ScheduleContext";
+import { WeeklyCalender } from "./WeeklyCalender";
 
-export default function Home() {
+interface FreeTimeProps {
+  userId: string;
+}
+
+export default function FreeTime({ userId }: FreeTimeProps) {
   return (
     <ScheduleContextProvider>
       <WeeklyCalender standardDate={new Date()} />
