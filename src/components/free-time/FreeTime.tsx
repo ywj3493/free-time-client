@@ -3,11 +3,7 @@
 import { ScheduleContextProvider } from "@/hooks/ScheduleContext";
 import { WeeklyCalender } from "./WeeklyCalender";
 
-interface FreeTimeProps {
-  userId: string;
-}
-
-export default function FreeTime({ userId }: FreeTimeProps) {
+export default function FreeTime() {
   return (
     <ScheduleContextProvider>
       <WeeklyCalender standardDate={new Date()} />

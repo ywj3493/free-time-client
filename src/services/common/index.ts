@@ -13,6 +13,7 @@ export default async function fetchWithAuth(
     const headers = {
       ...options?.headers,
       Authorization: `Bearer ${session.accessToken}`,
+      "Content-Type": "application/json", // Content-Type을 명시적으로 설정
     };
 
     const response = await fetch(`${baseUrl}${url}`, {

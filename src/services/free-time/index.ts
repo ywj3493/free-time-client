@@ -1,6 +1,14 @@
 import fetchWithAuth from "../common";
 
-export async function getMyFreeTime({
+/**
+ * http://server.pickfreetime.com/swagger-ui/index.html#/%EB%B9%88%20%EC%8B%9C%EA%B0%84%20%EA%B4%80%EB%A0%A8%20API/getMyFreeTime
+ * 나의 빈 시간 조회 (메인 API)
+ *
+ * @param start 스케줄 검색 시작 날짜
+ * @param end 스케줄 검색 끝 날짜
+ * @returns Promise<FreeTimeMyResponse>
+ */
+export async function getFreeTime({
   start,
   end,
 }: {
@@ -11,5 +19,5 @@ export async function getMyFreeTime({
 
   const response = await fetchWithAuth(`/free-time?${params}`);
 
-  return response?.json();
+  return response?.json() as Promise<FreeTimeMyResponse>;
 }

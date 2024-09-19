@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ScheduleContext } from "./ScheduleContext";
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
 

@@ -10,7 +10,7 @@ import { MeetingProposalForm } from "../proposals/MeetingProposalForm";
 import { useSchedule } from "@/hooks/useSchedule";
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
 import { dayToKor } from "@/utils";
-import { getMyFreeTime } from "@/services/free-time";
+import { getFreeTime } from "@/services/free-time";
 import useSWR from "swr";
 
 interface WeeklyCalenderProps {
@@ -39,7 +39,7 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
 
   const { data: myScheduleData, isLoading } = useSWR<FreeTimeMyResponse>(
     `/free-time?start=${formattedStartDate}end=${formattedEndDate}`,
-    () => getMyFreeTime({ start: formattedStartDate, end: formattedEndDate })
+    () => getFreeTime({ start: formattedStartDate, end: formattedEndDate })
   );
 
   if (isLoading || !myScheduleData) {
@@ -85,9 +85,12 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
           );
         })}
       </div>
-      <Button onClick={() => setIsModalOpen(true)}>프리타임 제안</Button>
+      <Button onClick={() => setIsModalOpen(true)}>약속 제안</Button>
       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <MeetingProposalForm freeTimes={filteredSelectedSchedule} />
+        <MeetingProposalForm
+          freeTimes={filteredSelectedSchedule}
+          onEmpty={() => setIsModalOpen(false)}
+        />
       </Modal>
     </main>
   );

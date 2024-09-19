@@ -21,5 +21,5 @@ export default async function FreeTimePage({
     redirect(`/${session.user.userId}`);
   }
 
-  return <FreeTime userId={userId} />;
+  return <FreeTime />;
 }

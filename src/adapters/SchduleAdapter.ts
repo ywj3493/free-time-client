@@ -72,6 +72,7 @@ export class ScheduleAdapter implements IScheduleAdapter {
     return simpleHash(`${this.date}_${this.start}_${this.end}`);
   }
 
+  // 하루 안에 제안 요청 구분하므로 시작 날짜만 해도 됨
   get date() {
     return format(this.startDate, "yyyy-MM-dd");
   }
@@ -113,8 +114,13 @@ export class ScheduleAdapter implements IScheduleAdapter {
 
   get schedule() {
     return {
-      start: this.startDate.toISOString(),
-      end: this.endDate.toISOString(),
+      scheduleId: this.id,
+      start: `${this.date} ${String(this.startHour).padStart(2, "0")}:${String(
+        this.startMinute
+      ).padStart(2, "0")}:00`,
+      end: `${this.date} ${String(this.endHour).padStart(2, "0")}:${String(
+        this.endMinute
+      ).padStart(2, "0")}:00`,
     };
   }
 }
