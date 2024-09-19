@@ -51,10 +51,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async authorized({ auth }) {
-      console.log("auth");
-      return !!auth;
-    },
     async jwt({ token, user }) {
       if (user) {
         const { accessToken, refreshToken } = user;

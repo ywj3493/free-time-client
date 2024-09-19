@@ -11,10 +11,12 @@ export default async function FreeTimePage({
 
   const session = await auth();
 
-  console.log(session);
-
   if (!session) {
     redirect("/login");
+  }
+
+  if (!userId) {
+    redirect(`/${session.user.userId}`);
   }
 
   return <FreeTime userId={userId} />;
