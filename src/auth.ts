@@ -31,7 +31,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: {},
       },
       async authorize(credentials) {
-        console.log("authorize");
         const response = await fetch(`${baseUrl}/users/auth/login`, {
           method: "POST",
           headers: {
@@ -68,8 +67,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.refreshToken = refreshToken as string;
         session.user.userId = userId as string;
       }
-      console.log(token);
-      console.log(session);
 
       return { ...session };
     },

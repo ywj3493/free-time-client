@@ -29,7 +29,6 @@ export function Header() {
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
 
   const handleAlarmModalOpen = () => {
-    console.log("tes");
     setIsAlarmModalOpen(true);
   };
 

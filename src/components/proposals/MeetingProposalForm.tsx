@@ -54,7 +54,6 @@ export function MeetingProposalForm({ freeTimes }: MeetingProposalFormProps) {
               type="button"
               className="bg-blue-400 px-2 text-lg text-white rounded-full"
               onClick={() => {
-                console.log(field);
                 handleDeleteSchedule(field.id);
                 remove(index);
               }}
