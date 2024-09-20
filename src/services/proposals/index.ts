@@ -48,7 +48,9 @@ export async function acceptProposal(
  * @param proposalId 거절할 제안 id
  */
 export async function rejectProposal(proposalId: number) {
-  await fetchWithAuth(`/proposals/${proposalId}/reject`, {
+  const response = await fetchWithAuth(`/proposals/${proposalId}/reject`, {
     method: "PUT",
   });
+
+  return response;
 }

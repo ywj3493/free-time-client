@@ -5,7 +5,7 @@ import { Chip } from "../common/Chip";
 import { Button } from "../common/Button";
 import { ChangeEvent, useState } from "react";
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
-import { acceptProposal } from "@/services/proposals";
+import { acceptProposal, rejectProposal } from "@/services/proposals";
 import { TextField } from "../common/TextField";
 
 interface MeetingResponseFormProps {
@@ -43,7 +43,15 @@ export function MeetingResponseForm({
     } catch (error) {}
   };
 
-  const handleSendReject = () => {};
+  const handleSendReject = async () => {
+    try {
+      const response = await rejectProposal(proposal.proposalId);
+
+      if (response?.ok) {
+        onSuccess();
+      }
+    } catch (error) {}
+  };
 
   const handleSelectSchedule = (schedule: ScheduleAdapter) => {
     setSelectedSchedule(schedule);
