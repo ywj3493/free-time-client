@@ -13,7 +13,11 @@ interface DayScheduleProps {
 export function DaySchedule({ day, freeTimes, meetings }: DayScheduleProps) {
   const { handleToggleSchedule } = useSchedule();
 
-  const date = freeTimes[0].date;
+  const date = freeTimes[0]
+    ? freeTimes[0].date
+    : meetings[0]
+    ? meetings[0].date
+    : "";
 
   const formattedDate = format(date, "yyyy-MM-dd");
 
