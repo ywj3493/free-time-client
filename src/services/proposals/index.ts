@@ -30,10 +30,16 @@ export async function postProposals(requests: ProposalCreateRequest[]) {
  *
  * @param proposalId 수락할 제안 id
  */
-export async function acceptProposal(proposalId: number, schedule: string) {
-  await fetchWithAuth(`/proposals/${proposalId}/accept`, {
+export async function acceptProposal(
+  proposalId: number,
+  request: ProposalAcceptRequest
+) {
+  const response = await fetchWithAuth(`/proposals/${proposalId}/accept`, {
     method: "PUT",
+    body: JSON.stringify(request),
   });
+
+  return response;
 }
 
 /**

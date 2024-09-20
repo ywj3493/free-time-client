@@ -23,5 +23,6 @@ type ProposalResponse = {
   requesterName: string;
   schedules: Schedule[];
   expiredAt: string;
+  description: string;
   status: ProposalStatus;
 };

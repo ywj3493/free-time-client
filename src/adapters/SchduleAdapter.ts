@@ -94,7 +94,15 @@ export class ScheduleAdapter implements IScheduleAdapter {
   }
 
   get scheduleText() {
-    return `${this.date} ${this.startHour}시 ${this.startMinute}분 부터 ${this.endHour}시 ${this.endMinute}분 까지`;
+    return `${this.date} ${this.startHour
+      .toString()
+      .padStart(2, "0")}시 ${this.startMinute
+      .toString()
+      .padStart(2, "0")}분 부터 ${this.endHour
+      .toString()
+      .padStart(2, "0")}시 ${this.endMinute
+      .toString()
+      .padStart(2, "0")}분 까지`;
   }
 
   // DaySchedule.tsx 의 ScheduleGage 컴포넌트의 위치를 잡는데 사용하는 비율 값
