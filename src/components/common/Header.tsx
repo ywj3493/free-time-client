@@ -5,28 +5,16 @@ import { useState } from "react";
 import Modal from "./Modal";
 import { MeetingResponseForm } from "../proposals/MeetingResponseForm";
 import { ProposalAdapter } from "@/adapters/ProposalAdapter";
-import { signOut } from "next-auth/react";
-
-const exampleProposalResponse: ProposalResponse = {
-  proposalId: 1,
-  requesterId: 101,
-  requesterName: "John Doe",
-  schedules: [
-    {
-      start: "2024-09-10T10:00:00",
-      end: "2024-09-10T11:00:00",
-    },
-    {
-      start: "2024-09-11T14:00:00",
-      end: "2024-09-11T15:00:00",
-    },
-  ],
-  expiredAt: "2024-09-15T23:59:59",
-  status: "WAITING", // ProposalStatus 타입에 정의된 상태 중 하나
-};
+import { signOut, useSession } from "next-auth/react";
+import useSWR from "swr";
+import { getProposals } from "@/services/proposals";
 
 export function Header() {
+  const { status } = useSession();
   const [isAlarmModalOpen, setIsAlarmModalOpen] = useState(false);
+  const { data: proposalResponse } = useSWR("/proposals/waiting", () =>
+    getProposals()
+  );
 
   const handleAlarmModalOpen = () => {
     setIsAlarmModalOpen(true);
@@ -40,21 +28,25 @@ export function Header() {
     signOut();
   };
 
+  const isAuthenticated = status === "authenticated";
+
   return (
     <div className="flex justify-between p-4">
       <Link href={"/users"}>마이 페이지</Link>
 
       <div className="flex gap-2">
         <button onClick={handleAlarmModalOpen}>알람</button>
+        {isAuthenticated && <button onClick={handleSignOut}>로그아웃</button>}
+      </div>
+      {proposalResponse && (
         <Modal open={isAlarmModalOpen} onClose={handleAlarmModalClose}>
           <MeetingResponseForm
-            proposal={ProposalAdapter.create(exampleProposalResponse)}
+            proposals={proposalResponse.map(ProposalAdapter.create)}
             onClickConfirm={handleAlarmModalClose}
             onClickReject={handleAlarmModalClose}
           />
         </Modal>
-        <button onClick={handleSignOut}>로그아웃</button>
-      </div>
+      )}
     </div>
   );
 }

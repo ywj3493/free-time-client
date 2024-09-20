@@ -5,7 +5,7 @@ type ProposalStatus = "WAITING" | "ACCEPTED" | "REJECTED";
 type MeetingStatus = "ACCEPTED" | "CANCELED";
 
 type Schedule = {
-  scheduleId: string;
+  scheduleId?: string;
   start: string;
   end: string;
 };

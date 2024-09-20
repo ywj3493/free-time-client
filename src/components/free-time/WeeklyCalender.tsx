@@ -37,13 +37,20 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
     setDate(() => addWeeks(date, -1));
   };
 
-  const { data: myScheduleData, isLoading } = useSWR<FreeTimeMyResponse>(
+  const {
+    data: myScheduleData,
+    isLoading,
+    error,
+  } = useSWR<FreeTimeMyResponse>(
     `/free-time?start=${formattedStartDate}end=${formattedEndDate}`,
     () => getFreeTime({ start: formattedStartDate, end: formattedEndDate })
   );
 
   if (isLoading || !myScheduleData) {
     return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error...</div>;
   }
   const { schedules } = myScheduleData;
 

@@ -7,7 +7,7 @@ import fetchWithAuth from "../common";
  * @returns Promise<ProposalResponse[]>
  */
 export async function getProposals() {
-  const response = await fetchWithAuth("/proposals");
+  const response = await fetchWithAuth("/proposals/waiting");
 
   return response?.json() as Promise<ProposalResponse[]>;
 }
@@ -22,5 +22,27 @@ export async function postProposals(requests: ProposalCreateRequest[]) {
   await fetchWithAuth("/proposals", {
     method: "POST",
     body: JSON.stringify(requests),
+  });
+}
+
+/**
+ *
+ *
+ * @param proposalId 수락할 제안 id
+ */
+export async function acceptProposal(proposalId: number, schedule: string) {
+  await fetchWithAuth(`/proposals/${proposalId}/accept`, {
+    method: "PUT",
+  });
+}
+
+/**
+ *
+ *
+ * @param proposalId 거절할 제안 id
+ */
+export async function rejectProposal(proposalId: number) {
+  await fetchWithAuth(`/proposals/${proposalId}/reject`, {
+    method: "PUT",
   });
 }

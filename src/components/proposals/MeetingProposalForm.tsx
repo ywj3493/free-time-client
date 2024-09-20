@@ -79,7 +79,7 @@ export function MeetingProposalForm({
               type="button"
               className="bg-blue-400 px-2 text-lg text-white rounded-full"
               onClick={() => {
-                handleDeleteSchedule(field.scheduleId);
+                if (field.scheduleId) handleDeleteSchedule(field.scheduleId);
                 remove(index);
               }}
             >

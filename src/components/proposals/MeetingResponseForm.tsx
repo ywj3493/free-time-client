@@ -5,18 +5,16 @@ import { Chip } from "../common/Chip";
 import { Button } from "../common/Button";
 
 interface MeetingResponseFormProps {
-  proposal: ProposalAdapter;
+  proposals: ProposalAdapter[];
   onClickConfirm?: () => void;
   onClickReject?: () => void;
 }
 
 export function MeetingResponseForm({
-  proposal,
+  proposals,
   onClickConfirm,
   onClickReject,
 }: MeetingResponseFormProps) {
-  const { proposalId, requesterName, schedules } = proposal;
-
   const handleSendAccept = () => {
     onClickConfirm?.();
   };
@@ -27,15 +25,26 @@ export function MeetingResponseForm({
 
   return (
     <div className="flex flex-col">
-      {schedules.map((schedule, index) => (
-        <div
-          key={`meeting_response_form_item_${schedule.id}`}
-          className="grid grid-cols-5"
-        >
-          <Chip title={`요청${index + 1}`} />
-          <span className="col-span-3">{schedule.scheduleText}</span>
-        </div>
-      ))}
+      {proposals.map((proposal, proposalIndex) => {
+        const { schedules } = proposal;
+
+        return (
+          <div
+            key={`meeting_response_form_item_${proposal.proposalId}`}
+            className="grid grid-cols-5"
+          >
+            <Chip title={`요청${proposalIndex + 1}`} />
+            {schedules.map((schedule) => (
+              <span
+                key={`meeting_response_form_item_schedules_${schedule.id}`}
+                className="col-span-3"
+              >
+                {schedule.scheduleText}
+              </span>
+            ))}
+          </div>
+        );
+      })}
       <div>
         <Button onClick={handleSendAccept}>수락</Button>
         <Button onClick={handleSendReject}>거절</Button>
