@@ -19,7 +19,5 @@ export async function getFreeTime({
 
   const response = await fetchWithAuth(`/free-time?${params}`);
 
-  console.log(response);
-
   return response?.json() as Promise<FreeTimeMyResponse>;
 }

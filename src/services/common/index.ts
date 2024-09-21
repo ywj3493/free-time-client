@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import { baseUrl } from "..";
 
 async function refreshAuth(options?: RequestInit) {
@@ -7,7 +7,7 @@ async function refreshAuth(options?: RequestInit) {
 
     if (!session) throw Error("session 없음");
 
-    const headers = {
+    const headers: HeadersInit = {
       ...options?.headers,
       Authorization: `Bearer ${session.refreshToken}`,
       "Content-Type": "application/json", // Content-Type을 명시적으로 설정
@@ -45,11 +45,10 @@ export default async function fetchWithAuth(
     });
 
     if (!response?.ok) {
-      const refreshResponse = await refreshAuth(options);
+      const error = await response.json();
 
-      if (refreshResponse?.ok) {
-        const { accessToken, refreshToken } =
-          (await refreshResponse.json()) as TokenResponse;
+      if (error.code === "10001") {
+        signOut();
       }
     }
 

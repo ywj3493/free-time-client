@@ -12,7 +12,7 @@ import Dropdown from "./Dropdown";
 import ProposalDropdown from "../proposals/ProposalDropdown";
 
 export function Header() {
-  const { status } = useSession();
+  const session = useSession();
 
   const alarmButtonRef = useRef(null);
 
@@ -51,17 +51,25 @@ export function Header() {
     signOut();
   };
 
-  const isAuthenticated = status === "authenticated";
+  const isAuthenticated = session.status === "authenticated";
   const proposalAdapters = proposalResponse?.map(ProposalAdapter.create);
+  const proposalCount = proposalAdapters ? proposalAdapters.length : 0;
+
+  if (!isAuthenticated) return null;
 
   return (
     <div className="flex justify-between p-4">
       <Link href={"/users"}>마이 페이지</Link>
 
       <div className="flex gap-2">
-        <button ref={alarmButtonRef} onClick={handleAlarmDropdownOpen}>
-          알람
-        </button>
+        <div className="relative flex">
+          <button ref={alarmButtonRef} onClick={handleAlarmDropdownOpen}>
+            알림
+          </button>
+          {proposalCount > 1 && (
+            <div className="absolute -right-0.5 -top-0.5 rounded-full bg-red-600 w-2 h-2" />
+          )}
+        </div>
         {proposalAdapters && (
           <Dropdown
             anchorRef={alarmButtonRef}
@@ -74,7 +82,7 @@ export function Header() {
             />
           </Dropdown>
         )}
-        {isAuthenticated && <button onClick={handleSignOut}>로그아웃</button>}
+        <button onClick={handleSignOut}>로그아웃</button>
       </div>
       {selectedProposal && (
         <Modal open={isAlarmModalOpen} onClose={handleAlarmModalClose}>
