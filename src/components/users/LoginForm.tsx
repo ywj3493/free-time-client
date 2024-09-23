@@ -6,6 +6,7 @@ import { TextField } from "../common/TextField";
 import { getSession, signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function LoginForm() {
   const { register, handleSubmit } = useForm<LoginFormData>({});
@@ -75,6 +76,8 @@ export function LoginForm() {
         />
       </label>
       <Button>로그인</Button>
+      <div className="h-0.5 w-full bg-gray-300"></div>
+      <Link href={"/signup"}>회원가입</Link>
     </form>
   );
 }
