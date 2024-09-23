@@ -9,7 +9,6 @@ import {
 import { getUser, updateUser } from "@/services/users";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Suspense } from "react";
 import useSWR from "swr";
 
 export default function UsersPage() {

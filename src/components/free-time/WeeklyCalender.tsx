@@ -11,13 +11,18 @@ import { useSchedule } from "@/hooks/useSchedule";
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
 import { dayToKor } from "@/utils";
 import useSWR from "swr";
-import { getMyFreeTime } from "@/services/free-time";
+import { getGuestFreeTime, getMyFreeTime } from "@/services/free-time";
+import { useSession } from "next-auth/react";
+import { useParams } from "next/navigation";
 
 interface WeeklyCalenderProps {
   standardDate: Date;
 }
 
 export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
+  const { data: session } = useSession();
+  const { userId } = useParams();
+
   const { filterSelectedSchedule } = useSchedule();
 
   const [date, setDate] = useState(standardDate);
@@ -37,13 +42,27 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
     setDate(() => addWeeks(date, -1));
   };
 
+  const isMyPage = session?.user.userId === userId[0];
+
+  console.log(isMyPage);
+
   const {
     data: myScheduleData,
     isLoading,
     error,
-  } = useSWR<FreeTimeMyResponse>(
-    `/free-time?start=${formattedStartDate}end=${formattedEndDate}`,
-    () => getMyFreeTime({ start: formattedStartDate, end: formattedEndDate })
+  } = useSWR<FreeTimeMyResponse | FreeTimeGueestResponse>(
+    isMyPage
+      ? `/free-time?start=${formattedStartDate}end=${formattedEndDate}`
+      : `/free-time/${userId}/?start=${formattedStartDate}end=${formattedEndDate}`,
+    isMyPage
+      ? () =>
+          getMyFreeTime({ start: formattedStartDate, end: formattedEndDate })
+      : () =>
+          getGuestFreeTime({
+            targetId: userId[0],
+            start: formattedStartDate,
+            end: formattedEndDate,
+          })
   );
 
   if (isLoading || !myScheduleData) {

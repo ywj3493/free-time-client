@@ -9,6 +9,15 @@ type UserUpdateFormData = {
   preferredNoticeChannel: PreferredNoticeChannel;
 };
 
+type UserRegisterFormData = {
+  name: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  phone: string;
+  preferredNoticeChannel: PreferredNoticeChannel;
+};
+
 type TokenResponse = {
   accessToken: string;
   refreshToken: string;
@@ -20,7 +29,6 @@ type UserCreateRequest = {
   password: string;
   phone?: string;
   preferredNoticeChannel: PreferredNoticeChannel;
-  weeklyFreeTime: FreeTimeWeeklyRequest;
 };
 
 type UserUpdateRequest = {

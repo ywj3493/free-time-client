@@ -21,8 +21,11 @@ export function Header() {
 
   const [selectedProposal, setSelectedProposal] = useState<ProposalAdapter>();
 
-  const { data: proposalResponse } = useSWR("/proposals/waiting", () =>
-    getProposals()
+  const isAuthenticated = session.status === "authenticated";
+
+  const { data: proposalResponse } = useSWR(
+    isAuthenticated ? "/proposals/waiting" : null,
+    () => getProposals()
   );
 
   const handleAlarmDropdownOpen = () => {
@@ -51,7 +54,6 @@ export function Header() {
     signOut();
   };
 
-  const isAuthenticated = session.status === "authenticated";
   const proposalAdapters = proposalResponse?.map(ProposalAdapter.create);
   const proposalCount = proposalAdapters ? proposalAdapters.length : 0;
 
