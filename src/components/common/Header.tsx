@@ -66,7 +66,7 @@ export function Header() {
           <button ref={alarmButtonRef} onClick={handleAlarmDropdownOpen}>
             알림
           </button>
-          {proposalCount > 1 && (
+          {proposalCount >= 1 && (
             <div className="absolute -right-0.5 -top-0.5 rounded-full bg-red-600 w-2 h-2" />
           )}
         </div>

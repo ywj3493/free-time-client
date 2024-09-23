@@ -8,7 +8,7 @@ import fetchWithAuth from "../common";
  * @param end 스케줄 검색 끝 날짜
  * @returns Promise<FreeTimeMyResponse>
  */
-export async function getFreeTime({
+export async function getMyFreeTime({
   start,
   end,
 }: {
@@ -20,4 +20,23 @@ export async function getFreeTime({
   const response = await fetchWithAuth(`/free-time?${params}`);
 
   return response?.json() as Promise<FreeTimeMyResponse>;
+}
+
+/**
+ * http://13.209.188.152/swagger-ui/index.html#/%EB%B9%88%20%EC%8B%9C%EA%B0%84%20%EA%B4%80%EB%A0%A8%20API/getMyWeeklyFreeTime
+ *
+ *
+ * @returns
+ */
+export async function getMyWeeklyFreeTime() {
+  const response = await fetchWithAuth("/free-time/weekly");
+
+  return response?.json() as Promise<FreeTimeWeeklyResponse>;
+}
+
+export async function updateWeeklyFreeTime(request: FreeTimeWeeklyRequest) {
+  await fetchWithAuth("free-time/weekly", {
+    method: "PUT",
+    body: JSON.stringify(request),
+  });
 }

@@ -5,23 +5,27 @@ import { TextField } from "../common/TextField";
 import { days } from "@/utils";
 import { Button } from "../common/Button";
 
-export function FreeTimeUpdateForm() {
+interface FreeTimeUpdateFormProps {
+  onSubmit: (data: FreeTimeUpdateFormData) => void;
+  defaultValues?: FreeTimeWeeklyResponse;
+}
+
+export function FreeTimeUpdateForm({
+  defaultValues,
+  onSubmit,
+}: FreeTimeUpdateFormProps) {
   const {
     register,
     handleSubmit,
     formState: { isValid },
   } = useForm<FreeTimeUpdateFormData>({
-    defaultValues: {},
+    defaultValues,
   });
-
-  const handleSendForm = (data: FreeTimeUpdateFormData) => {
-    console.log(data);
-  };
 
   return (
     <form
       className="flex flex-col items-center w-120 gap-2"
-      onSubmit={handleSubmit(handleSendForm)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       {days.map(({ eng, kor }) => {
         const engLower = eng.toLocaleLowerCase() as DayEngLower;
@@ -32,25 +36,25 @@ export function FreeTimeUpdateForm() {
           >
             <span className="col-span-2 text-center">{kor}</span>
             <TextField
-              {...register(`${engLower}.startHour`)}
+              {...register(`${engLower}.0.startHour`)}
               placeholder="18"
               className="text-sm w-10"
             />
             <span className="text-center">시</span>
             <TextField
-              {...register(`${engLower}.startMinute`)}
+              {...register(`${engLower}.0.startMinute`)}
               placeholder="00"
               className="text-sm w-10"
             />
             <span className="text-center">분 부터</span>
             <TextField
-              {...register(`${engLower}.endHour`)}
+              {...register(`${engLower}.0.endHour`)}
               placeholder="21"
               className="text-sm w-10"
             />
             <span className="text-center">시</span>
             <TextField
-              {...register(`${engLower}.endMinute`)}
+              {...register(`${engLower}.0.endMinute`)}
               placeholder="00"
               className="text-sm w-10"
             />

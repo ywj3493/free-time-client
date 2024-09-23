@@ -19,10 +19,12 @@ export async function getProposals() {
  * @param requests 미팅 제안 내용
  */
 export async function postProposals(requests: ProposalCreateRequest[]) {
-  await fetchWithAuth("/proposals", {
+  const response = await fetchWithAuth("/proposals", {
     method: "POST",
     body: JSON.stringify(requests),
   });
+
+  return response?.json();
 }
 
 /**
@@ -39,7 +41,7 @@ export async function acceptProposal(
     body: JSON.stringify(request),
   });
 
-  return response;
+  return response?.json();
 }
 
 /**
@@ -52,5 +54,5 @@ export async function rejectProposal(proposalId: number) {
     method: "PUT",
   });
 
-  return response;
+  return response?.json();
 }

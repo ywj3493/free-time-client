@@ -4,27 +4,27 @@ import { useForm } from "react-hook-form";
 import { TextField } from "../common/TextField";
 import { Button } from "../common/Button";
 
-export function UserUpdateForm() {
+interface UserUpdateFormProps {
+  onSubmit: (data: UserUpdateFormData) => void;
+  defaultValues?: UserResponse;
+}
+
+export function UserUpdateForm({
+  defaultValues,
+  onSubmit,
+}: UserUpdateFormProps) {
   const {
     register,
     handleSubmit,
     formState: { isValid },
   } = useForm<UserUpdateFormData>({
-    defaultValues: {
-      name: "",
-      phone: "",
-      preferredNoticeChannel: "EMAIL",
-    },
+    defaultValues,
   });
-
-  const handleSendForm = (data: UserUpdateFormData) => {
-    console.log(data);
-  };
 
   return (
     <form
       className="flex flex-col justify-center items-center w-64 gap-2"
-      onSubmit={handleSubmit(handleSendForm)}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <TextField
         type="text"

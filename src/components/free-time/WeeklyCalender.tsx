@@ -10,8 +10,8 @@ import { MeetingProposalForm } from "../proposals/MeetingProposalForm";
 import { useSchedule } from "@/hooks/useSchedule";
 import { ScheduleAdapter } from "@/adapters/SchduleAdapter";
 import { dayToKor } from "@/utils";
-import { getFreeTime } from "@/services/free-time";
 import useSWR from "swr";
+import { getMyFreeTime } from "@/services/free-time";
 
 interface WeeklyCalenderProps {
   standardDate: Date;
@@ -43,7 +43,7 @@ export function WeeklyCalender({ standardDate }: WeeklyCalenderProps) {
     error,
   } = useSWR<FreeTimeMyResponse>(
     `/free-time?start=${formattedStartDate}end=${formattedEndDate}`,
-    () => getFreeTime({ start: formattedStartDate, end: formattedEndDate })
+    () => getMyFreeTime({ start: formattedStartDate, end: formattedEndDate })
   );
 
   if (isLoading || !myScheduleData) {
