@@ -29,6 +29,7 @@ export function MeetingProposalForm({
         schedules: freeTimes.map((freeTime) => freeTime.schedule),
         expiredAt: freeTimes.at(-1)?.schedule.end,
         description: "",
+        place: "",
       },
     });
 
@@ -38,7 +39,7 @@ export function MeetingProposalForm({
   });
 
   const handleSendForm = async (data: MeetingProposalFormData) => {
-    await postProposals([data]);
+    await postProposals(data);
     onEmpty();
   };
 

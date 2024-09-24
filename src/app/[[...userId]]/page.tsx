@@ -1,25 +1,35 @@
-import { auth } from "@/auth";
-import FreeTime from "@/components/free-time/FreeTime";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function FreeTimePage({
-  params,
-}: {
-  params: { userId: string };
-}) {
-  const userId = params.userId;
+import GuestFreeTime from "@/components/free-time/GuestFreeTime";
+import MyFreeTime from "@/components/free-time/MyFreeTime";
+import { ScheduleContextProvider } from "@/hooks/ScheduleContext";
+import { useSession } from "next-auth/react";
+import { redirect, useParams } from "next/navigation";
 
-  const session = await auth();
+export default function FreeTimePage() {
+  const { userId } = useParams();
+
+  const { data: session, status } = useSession();
 
   // 로그인 하지 않았을 때 로그인 화면으로 라우팅
-  if (!session) {
+  if (status === "unauthenticated") {
     redirect("/login");
+  }
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
   }
 
   // root 페이지 값 userId 없을 때, 자기 자신 값으로 라우팅
   if (!userId || userId.length > 1) {
-    redirect(`/${session.user.userId}`);
+    redirect(`/${session?.user.userId}`);
   }
 
-  return <FreeTime />;
+  const isMyPage = session?.user.userId === userId[0];
+
+  return (
+    <ScheduleContextProvider>
+      {isMyPage ? <MyFreeTime /> : <GuestFreeTime />}
+    </ScheduleContextProvider>
+  );
 }

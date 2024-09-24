@@ -32,24 +32,18 @@ export function MeetingResponseForm({
 
   const handleSendAccept = async () => {
     try {
-      const response = await acceptProposal(proposal.proposalId, {
+      await acceptProposal(proposal.proposalId, {
         schedule: selectedSchedule.schedule,
         description: "",
       });
 
-      if (response?.ok) {
-        onSuccess();
-      }
+      onSuccess();
     } catch (error) {}
   };
 
   const handleSendReject = async () => {
     try {
-      const response = await rejectProposal(proposal.proposalId);
-
-      if (response?.ok) {
-        onSuccess();
-      }
+      await rejectProposal(proposal.proposalId);
     } catch (error) {}
   };
 

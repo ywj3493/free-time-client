@@ -7,6 +7,7 @@ interface IProposalAdapter {
   schedules: ScheduleAdapter[];
   expiredAt: string;
   description: string;
+  place: string;
   status: ProposalStatus;
 }
 
@@ -17,6 +18,7 @@ export class ProposalAdapter implements IProposalAdapter {
   public schedules: ScheduleAdapter[];
   public expiredAt: string;
   public description: string;
+  public place: string;
   public status: ProposalStatus;
 
   protected constructor({
@@ -26,6 +28,7 @@ export class ProposalAdapter implements IProposalAdapter {
     schedules,
     expiredAt,
     description,
+    place,
     status,
   }: IProposalAdapter) {
     this.proposalId = proposalId;
@@ -34,6 +37,7 @@ export class ProposalAdapter implements IProposalAdapter {
     this.schedules = schedules;
     this.expiredAt = expiredAt;
     this.description = description;
+    this.place = place;
     this.status = status;
   }
 
@@ -60,6 +64,7 @@ export class ProposalAdapter implements IProposalAdapter {
       schedules: this.schedules.map((value) => value.schedule),
       expiredAt: this.expiredAt,
       description: this.description,
+      place: this.place,
       status: this.status,
     };
   }

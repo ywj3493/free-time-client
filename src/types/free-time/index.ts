@@ -33,7 +33,8 @@ type FreeTimeDailyRequest = {
 type FreeTimeMyResponse = {
   user: UserResponse;
   schedules: DailyScheduleResponse[];
-  meetings: MeetingResponse[];
+  ownedMeetings: MeetingResponse[];
+  guestMeetings: MeetingResponse[];
 };
 
 type FreeTimeGueestResponse = {
