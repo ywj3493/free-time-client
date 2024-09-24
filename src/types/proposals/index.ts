@@ -8,6 +8,7 @@ type MeetingProposalFormData = {
 
 type ProposalAcceptRequest = {
   schedule: Schedule;
+  place: string;
   description: string;
 };
 

@@ -34,6 +34,7 @@ export function MeetingResponseForm({
     try {
       await acceptProposal(proposal.proposalId, {
         schedule: selectedSchedule.schedule,
+        place: "",
         description: "",
       });
 
@@ -44,6 +45,8 @@ export function MeetingResponseForm({
   const handleSendReject = async () => {
     try {
       await rejectProposal(proposal.proposalId);
+
+      onSuccess();
     } catch (error) {}
   };
 

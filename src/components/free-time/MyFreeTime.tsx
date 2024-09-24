@@ -59,7 +59,7 @@ export default function MyFreeTime() {
           key={`meeting_response_form_item_${meeting?.meetingId}`}
           className="grid grid-cols-4 gap-4 items-center"
         >
-          <Chip className="col-span-1" title={`요청${index + 1}`} />
+          <Chip className="col-span-1" title={`약속${index + 1}`} isSelected />
           <span className="col-span-3">{meeting?.meetingSummary}</span>
         </div>
       ))}
@@ -68,7 +68,7 @@ export default function MyFreeTime() {
           key={`meeting_response_form_item_${meeting?.meetingId}`}
           className="grid grid-cols-4 gap-4 items-center"
         >
-          <Chip className="col-span-1" title={`요청${index + 1}`} />
+          <Chip className="col-span-1" title={`약속${index + 1}`} isSelected />
           <span className="col-span-3">{meeting?.meetingSummary}</span>
         </div>
       ))}

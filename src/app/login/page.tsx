@@ -1,14 +1,13 @@
 "use client";
 import { LoginForm } from "@/components/users/LoginForm";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function LoginPage() {
   const { data: session, status } = useSession();
-  const router = useRouter();
 
   if (status === "authenticated") {
-    router.push(`/${session.user.userId}`);
+    redirect(`/${session.user.userId}`);
   }
 
   return (

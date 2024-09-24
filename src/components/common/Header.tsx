@@ -62,7 +62,6 @@ export function Header() {
   return (
     <div className="flex justify-between p-4">
       <Link href={"/users"}>마이 페이지</Link>
-
       <div className="flex gap-2">
         <div className="relative flex">
           <button ref={alarmButtonRef} onClick={handleAlarmDropdownOpen}>

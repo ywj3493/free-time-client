@@ -59,9 +59,17 @@ export async function getMyWeeklyFreeTime() {
   return response?.json() as Promise<FreeTimeWeeklyResponse>;
 }
 
+/**
+ * http://13.209.188.152/swagger-ui/index.html#/%EB%B9%88%20%EC%8B%9C%EA%B0%84%20%EA%B4%80%EB%A0%A8%20API/updateWeeklyFreeTime
+ * 주간 빈 시간 수정
+ *
+ * @param request
+ */
 export async function updateWeeklyFreeTime(request: FreeTimeWeeklyRequest) {
-  await fetchWithAuth("free-time/weekly", {
+  const response = await fetchWithAuth("/free-time/weekly", {
     method: "PUT",
     body: JSON.stringify(request),
   });
+
+  return response;
 }

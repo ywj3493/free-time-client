@@ -21,10 +21,12 @@ export async function getUser() {
  * @returns
  */
 export async function updateUser(request: UserUpdateRequest) {
-  await fetchWithAuth("/users/update", {
+  const response = await fetchWithAuth("/users/update", {
     method: "PUT",
     body: JSON.stringify(request),
   });
+
+  return response;
 }
 
 /**
