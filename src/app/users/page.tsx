@@ -1,26 +1,19 @@
-import { auth } from "@/auth";
-import ProtectedRoute from "@/components/common/ProtectedRoute";
-import { FreeTimeUpdateForm } from "@/components/users/FreeTimeUpdateForm";
-import { UserUpdateForm } from "@/components/users/UserUpdateForm";
+"use client";
+
+import UserInfoPage from "@/components/users/UserInfoPage";
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
-export default async function UsersPage() {
-  const session = await auth();
+export default function UsersPage() {
+  const { status } = useSession();
 
-  if (!session) {
+  if (status === "unauthenticated") {
     redirect("/login");
   }
 
-  return (
-    <div className="flex flex-col gap-10">
-      <section className="flex flex-col items-center justify-center gap-2">
-        <div>내 정보 수정</div>
-        <UserUpdateForm />
-      </section>
-      <section className="flex flex-col items-center justify-center gap-2">
-        <div>내 프리타임</div>
-        <FreeTimeUpdateForm />
-      </section>
-    </div>
-  );
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  return <UserInfoPage />;
 }

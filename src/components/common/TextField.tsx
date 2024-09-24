@@ -43,7 +43,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
             />
           ))}
         {rightadornment && (
-          <div className="flex-center flex h-20 w-20">{rightadornment}</div>
+          <div className="flex-center flex h-4 w-4">{rightadornment}</div>
         )}
       </div>
     );

@@ -6,6 +6,7 @@ type MeetingUpdateRequest = {
 
 type MeetingResponse = {
   meetingId: number;
+  receiverId: number;
   requesterId: number;
   requesterName: string;
   start: string;

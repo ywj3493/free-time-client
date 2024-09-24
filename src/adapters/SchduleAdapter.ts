@@ -1,6 +1,31 @@
 import { simpleHash } from "@/utils";
 import { differenceInMinutes, format, startOfDay } from "date-fns";
 
+function isIScheduleAdapter(obj: any): obj is IScheduleAdapter {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    "start" in obj &&
+    "end" in obj &&
+    "isFreeTime" in obj &&
+    typeof obj.start === "string" &&
+    typeof obj.end === "string" &&
+    typeof obj.isFreeTime === "boolean"
+  );
+}
+
+// 타입 가드 함수
+function isScheduleResponse(obj: any): obj is ScheduleResponse {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    "start" in obj &&
+    "end" in obj &&
+    typeof obj.start === "string" &&
+    typeof obj.end === "string"
+  );
+}
+
 interface IScheduleAdapter {
   start: string;
   end: string;
@@ -18,8 +43,21 @@ export class ScheduleAdapter implements IScheduleAdapter {
     this.isFreeTime = isFreeTime;
   }
 
-  public static create(data: ScheduleAdapter | IScheduleAdapter) {
-    return new ScheduleAdapter(data);
+  public static create(
+    data: ScheduleAdapter | IScheduleAdapter | ScheduleResponse,
+    isFreeTime?: boolean
+  ) {
+    if (data instanceof ScheduleAdapter) {
+      return data;
+    } else if (isIScheduleAdapter(data)) {
+      return new ScheduleAdapter({ ...data });
+    } else if (isScheduleResponse(data)) {
+      return new ScheduleAdapter({
+        ...data,
+        isFreeTime: isFreeTime ? true : false,
+      });
+    }
+    throw Error("ScheduleAdapter create error");
   }
 
   private get startDate() {
@@ -34,6 +72,7 @@ export class ScheduleAdapter implements IScheduleAdapter {
     return simpleHash(`${this.date}_${this.start}_${this.end}`);
   }
 
+  // 하루 안에 제안 요청 구분하므로 시작 날짜만 해도 됨
   get date() {
     return format(this.startDate, "yyyy-MM-dd");
   }
@@ -55,7 +94,15 @@ export class ScheduleAdapter implements IScheduleAdapter {
   }
 
   get scheduleText() {
-    return `${this.date} ${this.startHour}시 ${this.startMinute}분 부터 ${this.endHour}시 ${this.endMinute}분 까지`;
+    return `${this.date} ${this.startHour
+      .toString()
+      .padStart(2, "0")}시 ${this.startMinute
+      .toString()
+      .padStart(2, "0")}분 부터 ${this.endHour
+      .toString()
+      .padStart(2, "0")}시 ${this.endMinute
+      .toString()
+      .padStart(2, "0")}분 까지`;
   }
 
   // DaySchedule.tsx 의 ScheduleGage 컴포넌트의 위치를 잡는데 사용하는 비율 값
@@ -75,8 +122,13 @@ export class ScheduleAdapter implements IScheduleAdapter {
 
   get schedule() {
     return {
-      start: this.startDate.toISOString(),
-      end: this.endDate.toISOString(),
+      scheduleId: this.id,
+      start: `${this.date} ${String(this.startHour).padStart(2, "0")}:${String(
+        this.startMinute
+      ).padStart(2, "0")}:00`,
+      end: `${this.date} ${String(this.endHour).padStart(2, "0")}:${String(
+        this.endMinute
+      ).padStart(2, "0")}:00`,
     };
   }
 }

@@ -13,7 +13,11 @@ interface DayScheduleProps {
 export function DaySchedule({ day, freeTimes, meetings }: DayScheduleProps) {
   const { handleToggleSchedule } = useSchedule();
 
-  const date = freeTimes[0].date;
+  const date = freeTimes[0]
+    ? freeTimes[0].date
+    : meetings[0]
+    ? meetings[0].date
+    : "";
 
   const formattedDate = format(date, "yyyy-MM-dd");
 
@@ -39,16 +43,16 @@ export function DaySchedule({ day, freeTimes, meetings }: DayScheduleProps) {
         ))}
       </div>
       {`${formattedDate} ${day}`}
-      {freeTimeAdapters.map((adapter) => (
+      {freeTimeAdapters.map((adapter, index) => (
         <ScheduleGage
-          key={`freeTime_${adapter.start}_${adapter.end}`}
+          key={`freeTime_${adapter.start}_${adapter.end}_${index}`}
           scheduleAdapter={adapter}
           onClick={({ id }) => handleToggleSchedule(id)}
         />
       ))}
-      {meetingsAdapters.map((adapter) => (
+      {meetingsAdapters.map((adapter, index) => (
         <ScheduleGage
-          key={`meeting_${adapter.start}_${adapter.end}`}
+          key={`meeting_${adapter.start}_${adapter.end}_${index}`}
           scheduleAdapter={adapter}
           onClick={(schedule) => console.log(schedule)}
         />

@@ -1,5 +1,6 @@
 type MeetingProposalFormData = {
   targetId: number;
+  place: string;
   schedules: Schedule[];
   expiredAt: string;
   description: string;
@@ -7,11 +8,13 @@ type MeetingProposalFormData = {
 
 type ProposalAcceptRequest = {
   schedule: Schedule;
+  place: string;
   description: string;
 };
 
 type ProposalCreateRequest = {
   targetId: number;
+  place: string;
   schedules: Schedule[];
   expiredAt: string;
   description: string;
@@ -23,5 +26,7 @@ type ProposalResponse = {
   requesterName: string;
   schedules: Schedule[];
   expiredAt: string;
+  description: string;
+  place: string;
   status: ProposalStatus;
 };
